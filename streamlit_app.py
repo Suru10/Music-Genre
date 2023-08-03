@@ -81,7 +81,8 @@ st.header("This is Columns After Cleaning")
 df.drop("instance_id", axis=1, inplace=True)
 st.write(df.columns)
 st.write("After cleaning through the data we decided that instance ID was of no use to us so we got rid of it")
-st.header
+st.header("This is shape after cleaning")
+st.write(df.shape)
 # Visualize, and analyze:
 # Hypothesis:  is there a relationship between energy and duration
 # code (visualize)
