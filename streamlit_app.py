@@ -44,7 +44,7 @@ st.write(df.head(6))
 st.write("This is Tail")
 st.write(df.tail(6))
 
-st.write("This is column")
+st.write("This is columns")
 st.write(df.columns)
 
 st.write("This is Shape")
@@ -52,6 +52,7 @@ st.write(df.shape)
 
 st.write("This is Basic Info")
 st.write(df.describe())
+st.markdown("""---""")
 
 # Cleaning:
 st.header("Cleaning")
@@ -62,7 +63,7 @@ st.write(
 # are there any columns you want to drop?
 
 #Instance ID
-df.drop("instance_id", axis=1, inplace=True)
+
 
 # Check for null values
 
@@ -76,8 +77,11 @@ st.header("Post data cleaning head")
 st.write(df.head())
 st.header("Post cleaning tail")
 st.write(df.tail())
-st.write
-st.write(df.columns())
+st.header("This is Columns After Cleaning")
+df.drop("instance_id", axis=1, inplace=True)
+st.write(df.columns)
+st.write("After cleaning through the data we decided that instance ID was of no use to us so we got rid of it")
+st.header
 # Visualize, and analyze:
 # Hypothesis:  is there a relationship between energy and duration
 # code (visualize)
