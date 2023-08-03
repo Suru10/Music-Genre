@@ -2,147 +2,182 @@
 import streamlit as st
 import pandas as pd
 import warnings
-import plotly.express as px
-from sklearn import preprocessing
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import plotly.express as px
 
 warnings.filterwarnings("ignore")
 
-df = pd.read_csv("Netflix Userbase.csv")
+df = pd.read_csv("music_genre.csv")
+pd.set_option('display.max_columns', None)
 
-# Inspection:
+# Team 1 Bottom-> top caleb Diego Lucas:
 
-st.title("Monarch Mammoths")
-st.write("Chantelle Ho: Lives in Bay Area, 13")
-st.title("Netflix Userbase Dataset")
-st.header("About")
+#1 charts -> caleb
+#2 charts -> Diego
+#3 summary -> Lucas
+
+# team 2 -> Top Relena Kendra
+# Inpection / top portion:Relena
+# Cleaning: kendra
+
+# Write the code here:
+st.title("Popping Pistachios")
+st.write("Relena Clark:16")
+st.write("Kendra Moon:???")
+st.write("Lucas Silver:13")
+st.write("Caleb Arndt:14")
+st.write("Kayla Moon:???")
+st.write("Diego Lopez:???")
+st.title("Popular Music Statistics")
+st.header("Introduction")
 st.write(
-  "This dataset shows an example of the Netflix userbase, containing information about User ID, Subscription Type, Monthly Revenue, Join Date, Last Payment Date, Country, Age, Gender, Device, and Plan Duration"
+  "This dataset contains 50,000 of Spotifys most popular songs, describing their tone, key, creator, and  popularity, as well as other aspects of their composition. We identified and analyzed the relationships between these catagories with the intent of discovering what makes a song successful."
 )
-st.divider()
-# head
-st.write("Head")
-st.write(df.head())
-# tail
-st.write("Tail")
-st.write(df.tail())
-# columns
-st.write("Shape")
-st.write(df.shape)
-st.write("Topics")
+st.markdown("""---""")
+st.header("Inspection")
+st.write("This is Head")
+st.write(df.head(6))
+
+st.write("This is Tail")
+st.write(df.tail(6))
+
+st.write("This is column")
 st.write(df.columns)
 
-# df.shape
-# describe
-# df.describe()
+st.write("This is Shape")
+st.write(df.shape)
+
+st.write("This is Basic Info")
+st.write(df.describe())
 
 # Cleaning:
-columns_to_drop = [
-  'User ID', 'Join Date', 'Last Payment Date', 'Plan Duration'
-]
-df.drop(columns_to_drop, axis=1, inplace=True)
-df.isna().sum()
-
-st.divider()
-st.subheader("Cleaned Data:")
+st.header("Cleaning")
+st.write(df.isna().sum())
 st.write(
-  "The cleaning process removed 4 columns, User ID, Join Date, Last Payment Date, and  Plan Duration. They were removed because it wasn't useful to the dataset and irrelevant."
+  "There are 5 null values in each columns. Data cleaning involves checking for null values and un wanted data columns. After isolating said data, data cleaning involves removing all of said data"
 )
-st.write("Cleaned Data - Head")
+# are there any columns you want to drop?
+
+#Instance ID
+df.drop("instance_id", axis=1, inplace=True)
+
+# Check for null values
+
+# Look at preview file, in EDA, code is like .dropna(inplace = True) also do reset index
+df.dropna(inplace=True)
+df.reset_index(drop=True, inplace=True)
+st.header("There Are no More Null values")
+st.write("This is what this looks like with no null values")
+st.write(df.isna().sum())
+st.header("Post data cleaning head")
 st.write(df.head())
-st.write("Cleaned Data - Tail")
+st.header("Post cleaning tail")
 st.write(df.tail())
-st.write("Cleaned Data - Shape")
-st.write(df.shape)
-st.write("Cleaned Data - Columns")
-st.write(df.columns)
-st.divider()
-st.subheader(
-  "Hypothesis 1: What is the most common device people use Netflix on?")
-# visualizations:
+st.write
+st.write(df.columns())
+# Visualize, and analyze:
+# Hypothesis:  is there a relationship between energy and duration
+# code (visualize)
+sns.set(color_codes=True)
 
-new = df['Device'].value_counts().reset_index()
-new.columns = ['Device', 'Counts']
-fig = px.bar(new, x='Device', y='Counts')
-#fig.show()
-st.plotly_chart(fig, use_container_width=True)
-st.write(
-  "Bar graph of 'What is the most common device people use Netflix on?' The bar graph shows the types and numbers of devices that are used to watch Netflix. The bar graph goes in order, the left side has the most device #'s, and the right side has the least. There is also a scale on the left side going vertically, that shows the rough estimate of the # of devices. The graph shows that there are 636 laptops, 633 tablets, 621 smartphones, and 610 smart TVs being used to watch Netflix"
-)
-st.divider()
-st.subheader("Hypothesis 2: What country are most Netflix subscribers from?")
-new = df['Country'].value_counts().reset_index()
-new.columns = ['Country', 'Counts']
-fig = px.pie(new, values='Counts', names='Country')
-st.plotly_chart(fig, use_container_width=True)
-st.write(
-  "Pie graph of 'What country are most Netflix subscribers from?'. The pie graph Shows the # of users that are from a country. For instance, United States takes up about 18% of the pie graph (also says this when you hover) meaning that 18% of Netflix's subscriptions are from the United States. The pie chart shows information that is corresponding to other countries. According to the chart, 36% of Netflix subscriptions are from the United States and Spain (18% each), 12.7% from Canada, 51.24% from the United Kingdom, Australia, Germany, France, Brazil, Mexico, and Italy (7.32% each)."
-)
-st.divider()
-st.subheader("Hypothesis 3: What is the most common subscription type?")
-new = df['Subscription Type'].value_counts().reset_index()
-new.columns = ['Subscription Type', "Counts"]
-fig = px.bar(new, x='Subscription Type', y='Counts')
-# fig.show()
-st.plotly_chart(fig, use_container_width=True)
-st.write(
-  "In this bar graph for 'What is the most common subscription type?', it shows the number of subscriptions each type has. On the left, there are numbers that are in intervals of 100 so you can't see the exact number, but if you hover over the bars, it has information on what subscription type it is, and what the exact count of it is. There are three types of subscriptions. Premium, standard, basic. The graph shows that 999 people have bought the basic subscription, 768 people have subscribed to the standard, and 733 people have subscribed to premium. "
-)
-st.divider()
-st.subheader(
-  "Hypothesis 4: What is the relationship with the subscription type and country"
-)
-fd = df.groupby("Country")["Subscription Type"].value_counts().reset_index(
-  name="Counts")
-fig = px.bar(fd, x='Subscription Type', y='Counts', color='Country')
-#fig.show()
-st.plotly_chart(fig, use_container_width=True)
-st.write(
-  "The bar chart of 'What is the relationship with the subscription type and country?' shows what subscriptions are from what country. For example, the premium subscription has 145 counts from United States, meaning that there are 145 premium subscriptions from the U.S. The graph also shows this information for other subscription types and countries. For example, in the premium category, it shows that 212 people have subscribed from Spain"
-)
-st.divider()
+#sns.barplot(x="energy", y="duration", data=df)
 
-# try machine learning:
-# do preprocessing, using label encoder:
-st.header("Hey, check out our machine learning model!")
-st.subheader(
-  "It has a 65% chance of getting the correct answer when you put in a country's number. The answer is supposed to be the countries highest subscription count. (Which type of subscription has the most counts from one specific country) You can verify the answer using graph #4."
-)
-col1, col2 = st.columns(2)
-col1.write("Australia: 0")
-col1.write("Brazil: 1")
-col1.write("Canada: 2")
-col1.write("France: 3")
-col1.write("Germany: 4")
-col1.write("Italy: 5")
-col1.write("Mexico: 6")
-col1.write("Spain: 7")
-col1.write("United Kingdom: 8")
-col1.write("United States: 9")
-user_input = col2.text_input("Put a country number here", 0)
+#sns.barplot(x = 'key', y = 'popularity', data = df)
 
-le = preprocessing.LabelEncoder()
-df['Country'] = le.fit_transform(df['Country'])
-# use X ="Country", and y = "Subsription type"
-X = df["Country"].to_numpy().reshape(-1, 1)
-y = df["Subscription Type"].to_numpy()
-# split data into train and test
-X_train, X_test, y_train, y_test = train_test_split(X,
-                                                    y,
-                                                    test_size=0.33,
-                                                    random_state=42)
-# Use decision tree classifier
-clf = DecisionTreeClassifier(random_state=0, max_depth=4).fit(X_train, y_train)
-# use predict
-predict = clf.predict(np.array([user_input]).reshape(-1, 1))
-col2.write(predict)
-st.divider()
-st.subheader("Conclusion")
-st.write(
-  "In conclusion, the Netflix Userbase Dataset shows different variations of who and what interacts with Netflix subscriptions. In the dataset, there is a large age range of buyers, between the ages of 26 and 51. There are also different subscription types that people can buy as well as different devices they can use Netflix on. This dataset was really helpful because it shows us insights on what potential people subscribe to Netflix. "
+#sns.barplot(x = "popularity", y = "energy", data = df) -- > Lucas
+#hypothesis: I thought that as the energy went up so would the popularity
+#visualize
+#sumarize: There did not seem to be a relationship between energy and popularity
+
+# summary -> what you find out from the graph
+
+#HYPOTHESIS:c is there a relationship between enery and dancebility? - Kendra
+print(
+  "\n\n\n\n\nHYPOTHESIS: Is there a relationship between enery and dancebility? - Kendra"
 )
-st.write(
-  "In graph #1, it is asking, 'What is the most common device people use Netflix on?' The bar graph  tells us the number of devices used for Netflix. For graph #2, the pie chart shows us what percentage of Netflix's subscribers are from what country. For graph #3, the bar graph shows us how many people have bought what Netflix subscription type (Basic, standard, or premium). The graph also shows us the relationship the subscription type has with the amount of people buying it. It is a possiblility that there are more people buying the basic subscription because it is cheaper. Same for premium because it is more expensive. Graph #4 shows us the relationship between the number of subscription types bought and the country. This graph has a lot of detail because it not only shows us the three subscription types, but it also shows us how much subscribers are from each country. The graph is a mix of #2 and #3"
+sns.set(style='whitegrid')
+sns.scatterplot(x="energy", y="danceability", data=df)
+
+# Is there a relationship between duration and popularity
+
+fig = px.scatter(df,
+                 x="duration_ms",
+                 y="popularity",
+                 title='Durations Effect on Popularity')
+fig.show()
+# Longest sond to hit 50pop is 16 minutes, Highest ranking song is about 2.5 minutes, most songs are <= 10.25min, longest song == 80ish mins. Songs do best when they're around 3.5 mins which makes since thats the industry standard.
+
+#is there a relationship between energy and duration?
+fig = px.scatter(data_frame=df, x="energy", y="duration_ms")
+fig.show()
+
+print(
+  "Most of the songs seem to have a similar run time. However more of the songs"
 )
+print(
+  "with low energy seem to have a longer rum time. This could be because when the"
+)
+print(
+  "artist could have a hard time maintaining a high energy level for an extended period"
+)
+print(
+  "of time. While the low energy singers are able to maintain a low energy level for"
+)
+print("a longer amount of time.")
+
+fig = px.scatter(data_frame=df, x="energy", y="duration_ms")
+fig.show()
+fig = plt.figure(figsize=(10, 4))
+sns.lineplot(x="energy", y="duration_ms", data=df)
+st.pyplot(fig)
+print(
+  "Most of the songs seem to have a similar run time. However more of the songs"
+)
+print(
+  "with low energy seem to have a longer rum time. This could be because when the"
+)
+print(
+  "artist could have a hard time maintaining a high energy level for an extended period"
+)
+print(
+  "of time. While the low energy singers are able to maintain a low energy level for"
+)
+print("a longer amount of time.")
+
+#Does the music key affect the song's popularity
+
+fig = px.scatter(data_frame=df, x='key', y='popularity')
+fig.show()
+
+print("All the keys seem to have a pretty similar number of songs.")
+print("The popularity ratings seem to be similar as well. As far as I")
+print("can tell there seems to be no variation in the songs due to the key.")
+
+#Is there a relation ship between the popularity and energy
+
+fig = px.scatter(data_frame=df, x="popularity", y="energy")
+fig.show()
+
+print("All songs in the 80 popular range have a .24 energy at least.")
+print("All other energy are under 80. From this I can tell that for a ")
+print("song to be popular genarally you need to have a moderate energy level.")
+print("All of the songs below .24 are below the 80 popularity range.")
+print(
+  "However just because you have high energy doesen't guarentee that a song")
+print(
+  "will be popular. But if you want a popular song a high energy seems to do better than a low energy."
+)
+
+# For fun: relation ship between artist and popularity
+df_new = df.groupby(
+  "artist_name")['popularity'].mean().reset_index().sort_values(
+    by="popularity", ascending=False).head(10)
+
+fig = px.bar(df_new, x="artist_name", y="popularity")
+fig.show()
+#Once artists have a popular song they tend to have more of them since they've established a name
+
+st.title("Hypothosis 1: Is There A Relationship Between Popularity And Energy")
