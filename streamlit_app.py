@@ -24,12 +24,14 @@ pd.set_option('display.max_columns', None)
 
 # Write the code here:
 st.title("Popping Pistachios")
-st.write("Relena Clark:16")
-st.write("Kendra Moon:???")
-st.write("Lucas Silver:13")
-st.write("Caleb Arndt:14")
-st.write("Kayla Moon:???")
-st.write("Diego Lopez:???")
+st.write("Relena Clark: I'm 16 and love reading. I live in Canada")
+st.write(
+  "Kendra Moon: I am 14, I play volleyball and the guitar. I live in CA and my favorite novel is 'Salt to the Sea'."
+)
+st.write("Lucas Silver: I am 13, Live in Seattle washingtion and like robotics :P")
+st.write("Caleb Arndt: I am 14, Live on whidbey island, and am on a robotics team :-)")
+st.write("Kayla Moon: ")
+st.write("Diego Lopez: I am 13 years old, I like soccer, martial arts, reading, and video games. I live in CA and my favorite game franchise is The Legend of Zelda. My favorite book is 'EON'.")
 st.title("Popular Music Statistics")
 st.header("Introduction")
 st.write(
@@ -210,8 +212,10 @@ st.title(
   "Question 4: Is There A Relationship Between Song's Duration And Energy")
 
 figC = plt.figure(figsize=(10, 4))
-figC = px.scatter(data_frame=df, x="energy",
-                  y="duration_ms", title="Energies Effect on Duration")
+figC = px.scatter(data_frame=df,
+                  x="energy",
+                  y="duration_ms",
+                  title="Energies Effect on Duration")
 
 st.plotly_chart(figC, use_container_width=True)
 st.write(
@@ -221,7 +225,7 @@ st.write(
   "with low energy seem to have a longer rum time. This could be because when the"
 )
 st.write(
-  "artist could have a hard time maintaining a high energy level for an extended period of time. While the low energy singers are able to maintain a low energy level for a longer amount of time."
+  "artist could have a hard time maintaining a high energy level for an extended period of time. While the low energy singers are able to maintain a low energy level for a longer amount of time. Note this analysis was written with a larger data set."
 )
 
 st.title(
