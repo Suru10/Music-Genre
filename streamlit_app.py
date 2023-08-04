@@ -28,8 +28,8 @@ st.write("Relena Clark: I'm 16 and love reading. I live in Canada")
 st.write(
   "Kendra Moon: I am 14, I play volleyball and the guitar. I live in CA and my favorite novel is 'Salt to the Sea'."
 )
-st.write("Lucas Silver: I am 13, Live in Seattle washingtion and like robotics :P")
-st.write("Caleb Arndt: I am 14, Live on whidbey island, and am on a robotics team :-)")
+st.write("Lucas Silver: I am 13, Live in Seattle washingtion and like robotics and ultimate frisbee:P")
+st.write("Caleb Arndt: I am 14, live on whidbey island, and am on a robotics team :-)")
 st.write("Kayla Moon: ")
 st.write("Diego Lopez: I am 13 years old, I like soccer, martial arts, reading, and video games. I live in CA and my favorite game franchise is The Legend of Zelda. My favorite book is 'EON'.")
 st.title("Popular Music Statistics")
@@ -193,8 +193,7 @@ st.title(
 fig = plt.figure(figsize=(10, 4))
 sns.lineplot(x="key", y="popularity", data=df)
 st.pyplot(fig)
-st.write()
-st.header(
+st.write(
   "Caleb, My hypothsys is that the music key will not majorly effect the popularity, because the music key is not the main attraction of the song. However I belive that the lower the key the more popular it will be, this assumption is because most people tend to enjoy songs that are in lower keys, and octives. "
 )
 st.title(
@@ -204,7 +203,7 @@ st.title(
 fig = plt.figure(figsize=(10, 4))
 sns.lineplot(x="energy", y="popularity", data=df)
 st.pyplot(fig)
-st.header(
+st.write(
   "Analysis: I think that there will be a relationship between popularity, and energy. I believe that the most popular will be right in the middle of the energy, because people seem to like more high energy songs."
 )
 
@@ -231,8 +230,7 @@ st.write(
 st.title(
   "Question 5: Is There A Relationship Between The Song's Danceability And Energy"
 )
-#your code kendra for the chart
-st.title("Is there a relationship between duration and popularity")
+#your code kendra for the chart                                                                                                                                                                               
 fig3 = plt.figure(figsize=(10, 4))
 sns.set(style='whitegrid')
 sns.scatterplot(
