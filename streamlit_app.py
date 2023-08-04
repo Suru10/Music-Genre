@@ -203,15 +203,9 @@ fig = plt.figure(figsize=(10, 4))
 sns.lineplot(x="energy", y="popularity", data=df)
 st.pyplot(fig)
 st.header(
-  "Hypothesis: I think that there will be a relationship between popularity, and energy. I believe that the most popular will be right in the middle of the energy, because people seem to like more high energy songs."
+  "Analysis: I think that there will be a relationship between popularity, and energy. I believe that the most popular will be right in the middle of the energy, because people seem to like more high energy songs."
 )
 
-st.header(
-  "Summary: There seems to be no relationship between energy and popularity.")
-print("\n\n\n")
-
-st.header(
-  "Summary: There seems to be no relationship between energy and popularity")
 st.title(
   "Question 4: Is There A Relationship Between Song's Duration And Energy")
 
