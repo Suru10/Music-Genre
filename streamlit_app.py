@@ -12,7 +12,6 @@ warnings.filterwarnings("ignore")
 
 df = pd.read_csv("music_genre.csv")
 pd.set_option('display.max_columns', None)
-
 # Team 1 Bottom-> top caleb Diego Lucas:
 
 #1 charts -> caleb
@@ -64,7 +63,6 @@ st.write(
 
 #Instance ID
 
-
 # Check for null values
 
 # Look at preview file, in EDA, code is like .dropna(inplace = True) also do reset index
@@ -80,13 +78,19 @@ st.write(df.tail())
 st.header("This is Columns After Cleaning")
 df.drop("instance_id", axis=1, inplace=True)
 st.write(df.columns)
-st.write("After cleaning through the data we decided that instance ID was of no use to us so we got rid of it")
+st.write(
+  "After cleaning through the data we decided that instance ID was of no use to us so we got rid of it"
+)
 st.header("This is shape after cleaning")
 st.write(df.shape)
+
+#smaller dataframe
+df = df.iloc[:1000]
+
 # Visualize, and analyze:
 # Hypothesis:  is there a relationship between energy and duration
 # code (visualize)
-sns.set(color_codes=True)
+# sns.set(color_codes=True)
 
 #sns.barplot(x="energy", y="duration", data=df)
 
@@ -100,62 +104,44 @@ sns.set(color_codes=True)
 # summary -> what you find out from the graph
 
 #HYPOTHESIS:c is there a relationship between enery and dancebility? - Kendra
-print(
-  "\n\n\n\n\nHYPOTHESIS: Is there a relationship between enery and dancebility? - Kendra"
-)
-sns.set(style='whitegrid')
-sns.scatterplot(x="energy", y="danceability", data=df)
+# create a fig
+# fig = plt.figure(figsize=(10, 4))
 
-# Is there a relationship between duration and popularity
+# fig3 = plt.figure(figsize=(10, 4))
+# sns.set(style='whitegrid')
+# sns.scatterplot(
+#   x="energy", y="danceability",
+#   data=df).set(title="Relationship Between Energy & Danceability")
+# #st.pyplot(fig)
+# st.pyplot(fig3)
 
-fig = px.scatter(df,
-                 x="duration_ms",
-                 y="popularity",
-                 title='Durations Effect on Popularity')
-fig.show()
-# Longest sond to hit 50pop is 16 minutes, Highest ranking song is about 2.5 minutes, most songs are <= 10.25min, longest song == 80ish mins. Songs do best when they're around 3.5 mins which makes since thats the industry standard.
+#Diego is there a relationship between energy and duration?
 
-#is there a relationship between energy and duration?
-fig = px.scatter(data_frame=df, x="energy", y="duration_ms")
-fig.show()
+# fig.show()
 
-print(
-  "Most of the songs seem to have a similar run time. However more of the songs"
-)
-print(
-  "with low energy seem to have a longer rum time. This could be because when the"
-)
-print(
-  "artist could have a hard time maintaining a high energy level for an extended period"
-)
-print(
-  "of time. While the low energy singers are able to maintain a low energy level for"
-)
-print("a longer amount of time.")
-
-fig = px.scatter(data_frame=df, x="energy", y="duration_ms")
-fig.show()
-fig = plt.figure(figsize=(10, 4))
-sns.lineplot(x="energy", y="duration_ms", data=df)
-st.pyplot(fig)
-print(
-  "Most of the songs seem to have a similar run time. However more of the songs"
-)
-print(
-  "with low energy seem to have a longer rum time. This could be because when the"
-)
-print(
-  "artist could have a hard time maintaining a high energy level for an extended period"
-)
-print(
-  "of time. While the low energy singers are able to maintain a low energy level for"
-)
-print("a longer amount of time.")
+#fig = px.scatter(data_frame=df, x="energy", y="duration_ms")
+#fig.show()
+# fig = plt.figure(figsize=(10, 4))
+# sns.lineplot(x="energy", y="duration_ms", data=df)
+# st.pyplot(fig)
+# print(
+#   "Most of the songs seem to have a similar run time. However more of the songs"
+# )
+# print(
+#   "with low energy seem to have a longer rum time. This could be because when the"
+# )
+# print(
+#   "artist could have a hard time maintaining a high energy level for an extended period"
+# )
+# print(
+#   "of time. While the low energy singers are able to maintain a low energy level for"
+# )
+# print("a longer amount of time.")
 
 #Does the music key affect the song's popularity
 
-fig = px.scatter(data_frame=df, x='key', y='popularity')
-fig.show()
+# fig = px.scatter(data_frame=df, x='key', y='popularity')
+# # fig.show()
 
 print("All the keys seem to have a pretty similar number of songs.")
 print("The popularity ratings seem to be similar as well. As far as I")
@@ -164,7 +150,7 @@ print("can tell there seems to be no variation in the songs due to the key.")
 #Is there a relation ship between the popularity and energy
 
 fig = px.scatter(data_frame=df, x="popularity", y="energy")
-fig.show()
+# fig.show()
 
 print("All songs in the 80 popular range have a .24 energy at least.")
 print("All other energy are under 80. From this I can tell that for a ")
@@ -176,13 +162,97 @@ print(
   "will be popular. But if you want a popular song a high energy seems to do better than a low energy."
 )
 
-# For fun: relation ship between artist and popularity
+st.title("Question 0: Is there a relationship between artist and popularity?")
 df_new = df.groupby(
   "artist_name")['popularity'].mean().reset_index().sort_values(
     by="popularity", ascending=False).head(10)
 
-fig = px.bar(df_new, x="artist_name", y="popularity")
-fig.show()
-#Once artists have a popular song they tend to have more of them since they've established a name
+figA = px.bar(df_new, x="artist_name", y="popularity")
+st.plotly_chart(figA, use_container_width=True)
+st.write(
+  "Once artists have a popular song they tend to have more of them since they've established a name"
+)
 
-st.title("Hypothosis 1: Is There A Relationship Between Popularity And Energy")
+st.title(
+  "Question 1: Is There A Relationship Between Popularity and The Songs Duration"
+)
+figB = px.scatter(df,
+                  x="duration_ms",
+                  y="popularity",
+                  title='Durations Effect on Popularity')
+st.plotly_chart(figB, use_container_width=True)
+st.write(
+  "Longest sond to hit 50pop is 16 minutes, Highest ranking song is about 2.5 minutes, most songs are <= 10.25min, longest song == 80ish mins. Songs do best when they're around 3.5 mins which makes since as that is the industry standard."
+)
+
+st.title(
+  "Question 2: Is There A Relationship Between Popularity And the Song's Key")
+
+fig = plt.figure(figsize=(10, 4))
+sns.lineplot(x="key", y="popularity", data=df)
+st.pyplot(fig)
+st.write()
+st.header(
+  "Caleb, My hypothsys is that the music key will not majorly effect the popularity, because the music key is not the main attraction of the song. However I belive that the lower the key the more popular it will be, this assumption is because most people tend to enjoy songs that are in lower keys, and octives. "
+)
+st.title(
+  "Question 3: Is There A Relationship Between Popularity And The Song's Energy"
+)
+
+fig = plt.figure(figsize=(10, 4))
+sns.lineplot(x="energy", y="popularity", data=df)
+st.pyplot(fig)
+st.header(
+  "Hypothesis: I think that there will be a relationship between popularity, and energy. I believe that the most popular will be right in the middle of the energy, because people seem to like more high energy songs."
+)
+
+st.header(
+  "Summary: There seems to be no relationship between energy and popularity.")
+print("\n\n\n")
+
+st.header(
+  "Summary: There seems to be no relationship between energy and popularity")
+st.title(
+  "Question 4: Is There A Relationship Between Song's Duration And Energy")
+
+figC = plt.figure(figsize=(10, 4))
+figC = px.scatter(data_frame=df, x="energy",
+                  y="duration_ms", title="Energies Effect on Duration")
+
+st.plotly_chart(figC, use_container_width=True)
+st.write(
+  "Summary: Most of the songs seem to have a similar run time. However more of the songs"
+)
+st.write(
+  "with low energy seem to have a longer rum time. This could be because when the"
+)
+st.write(
+  "artist could have a hard time maintaining a high energy level for an extended period of time. While the low energy singers are able to maintain a low energy level for a longer amount of time."
+)
+
+st.title(
+  "Question 5: Is There A Relationship Between The Song's Danceability And Energy"
+)
+#your code kendra for the chart
+st.title("Is there a relationship between duration and popularity")
+fig3 = plt.figure(figsize=(10, 4))
+sns.set(style='whitegrid')
+sns.scatterplot(
+  x="energy", y="danceability",
+  data=df).set(title="Relationship Between Energy & Danceability")
+#st.pyplot(fig)
+st.pyplot(fig3)
+# write summary of the hyp
+st.write("There are fewer songs less than 0.5 energy.")
+st.write(
+  "For the lower energy songs there is no correlation between energy and danceability, as the data points are scattered across the graph randomely"
+)
+st.write(
+  "For the lower energy songs there is no correlation between energy and danceability, as the data points are scattered across the graph randomely"
+)
+st.write(
+  "Past energy 0.5, a majority of songs danceability started at 0.5 and continued to increase."
+)
+# st.title(
+#   "question 6: Is There A Relationship Between thee Song's Insturmentalness And Artist"
+# )
